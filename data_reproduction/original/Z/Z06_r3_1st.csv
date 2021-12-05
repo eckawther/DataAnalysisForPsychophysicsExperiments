@@ -1,0 +1,12 @@
+key_resp_start.keys,key_resp_start.rt,key_resp_stop.keys,key_resp_stop.rt,feedback_range,hit,stimulus_range,trials.thisRepN,trials.thisTrialN,trials.thisN,trials.thisIndex,trials.ran,stimulus_duration,onset,feedback,feedback_range_fromfile,participant,session,date,expName,psychopyVersion,OS,frameRate
+space,59.16929,space,1.68485,0.3,TRUE,Training,0,0,0,0,1,2,0.1,True,0.3,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,5.950775,space,1.425125,0.3,FALSE,Training,0,1,1,1,1,5,0.2,True,0.3,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,5.55801,space,1.125545,0.3,FALSE,Training,0,2,2,2,1,4,0.1,True,0.3,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,0.13466,space,4.54058,,,large,0,3,3,3,1,4.5,0.3,False,None,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,9.28111,space,0.901395,,,large,0,4,4,4,1,3.5,0.3,False,None,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,2.02487,space,0.50164,,,large,0,5,5,5,1,5.5,0.3,False,None,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,27.051615,space,0.55568,,,large,0,6,6,6,1,3,0.1,False,None,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,25.901745,space,0.72695,,,large,0,7,7,7,1,2.5,0.1,False,None,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,18.96158,space,0.50857,,,large,0,8,8,8,1,5,0.3,False,None,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,6.97466,space,0.541275,,,large,0,9,9,9,1,6,0.3,False,None,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
+space,29.169245,space,0.47949,,,large,0,10,10,10,1,2,0.2,False,None,Z06,r3,2021-04-29_20h48.40.727,subsecond_timing_v2,2021.1.2,Win32,59.99160118
