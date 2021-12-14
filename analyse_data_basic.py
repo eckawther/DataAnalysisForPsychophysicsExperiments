@@ -13,98 +13,38 @@ import sklearn.metrics
 import math
 import seaborn as sns
 
-###################################################### load data
-
-def load_data_from_file(file_name, include_training=False):
-    """ Load data from a production/reproduction experiment.
-
-    Version for the experiments with psychopy. Loads csv files.
-
-    Parameters
-    ----------
-    file_name : str
-        Name of csv file to load.
-    include_training : bool
-        Include training trials? Default False.
-
-    Returns
-    -------
-    stimuli : list
-    responses : list
-    """
-    if not file_name.endswith('.csv'):
-        sys.exit('Provide csv file!')
-
-    #print('loading ', file_name)
-    df = pandas.read_csv(file_name)
-    results = trajectory_base.paramsTrajectory(parameters=df.to_dict('records'))
-
-    stimuli = numpy.array(results.getParameter('stimulus_duration'))
-    responses = numpy.array(results.getParameter('key_resp_stop.rt'))
-
-    # -- remove training data
-    if not include_training:
-        stimulus_ranges = numpy.array(results.getParameter('stimulus_range'))
-        training_trials = numpy.where(stimulus_ranges == 'Training')[0]
-
-        if len(training_trials):
-            stimuli = numpy.delete(stimuli, training_trials)
-            responses = numpy.delete(responses, training_trials)
-            #print("Removed", len(training_trials), "training trials.")
-
-    return stimuli, responses
 ###################################################### main
 
 if __name__ == '__main__':
 
     #returns the full directory path    
     dir_path = os.path.dirname(os.path.abspath(__file__))
-    
-    # T_data_path = os.path.join(dir_path, "data_reproduction/pruned/T/")
-    # D_data_path = os.path.join(dir_path, "data_reproduction/pruned/D/")
-    # Z_data_path = os.path.join(dir_path, "data_reproduction/pruned/Z/")
-    #
-    # data_path_list = [T_data_path, D_data_path, Z_data_path]
+    #returns the plot folder path 
     plot_path = os.path.join(dir_path, "plot")
+    #saves the first row in csv files for analysed data
     h_rowlist = ["stdeviation", "BIAS", "BIAS_squared", "CV", "slope", "RMSE"]
-    #
-    # for folder_path in data_path_list:
-    #
-    #     for i,file in enumerate(sorted(os.listdir(folder_path))):
-    #         #print(file,i)
-    #         if file.endswith('.csv'):
-    #             file_path = os.path.join(folder_path, file)
-    #             stimuli, responses = load_data_from_file(file_path)
-    #             stdeviation, BIAS, BIAS_squared, CV, slope, RMSE = definition.compute_parameters (stimuli, responses)
-    #
-    #             plot_file_path = os.path.join(plot_path, file[0], file.split("_")[0] + ".csv")
-    #             #print(file,i)
-    #             if ("r1" in file):
-    #                 h_rowlist = ["stdeviation", "BIAS", "BIAS_squared", "CV", "slope", "RMSE"]
-    #                 d_rowlist = [stdeviation, BIAS, BIAS_squared, CV, slope, RMSE]
-    #                 with open(plot_file_path, 'w') as plot_file:
-    #                     writer = csv.writer(plot_file)
-    #                     writer.writerow(h_rowlist)
-    #                     writer.writerow(d_rowlist)
-    #             elif ("r2" in file) or ("r3" in file):
-    #                 rowlist = [stdeviation, BIAS, BIAS_squared, CV, slope, RMSE]
-    #                 with open( plot_file_path, 'a') as plot_file:
-    #                     writer = csv.writer(plot_file)
-    #                     writer.writerow(rowlist)
 
-
+    #returns the plot paths for different nationalities 
     T_plot_path = os.path.join(dir_path, "plot/T/")
     D_plot_path = os.path.join(dir_path, "plot/D/")
     Z_plot_path = os.path.join(dir_path, "plot/Z/")
     
+    #gathers all plot paths in one list
     plot_path_list = [T_plot_path, D_plot_path, Z_plot_path]
+
+    #returns path for saving figures
     plot_figures_path = os.path.join(plot_path, "figures/")
 
+    #initializing plot and error data lists
     plot_data = []    
     error_data = [] 
     
+
+
+    #main for loup for all folders (for different nationalities)
     for folder_path in plot_path_list:
         mean_list = []
+        #calculates the mean for a specific parameter (stdve,bias...) for a specific range for a specific country 
         for file in sorted(os.listdir(folder_path)):
             fname = file.split(".")[0]
             if file.endswith('.csv'):
@@ -122,17 +62,21 @@ if __name__ == '__main__':
         r1_mean_list = []
         r2_mean_list = []
         r3_mean_list = []
-        
         for i in range(len(mean_list)):
             r1_mean_list.append(mean_list[i][0])
             r2_mean_list.append(mean_list[i][1])
             r3_mean_list.append(mean_list[i][2])
 
+        #here is where the data to be plotted is saved 
         plot_data.append([numpy.mean(r1_mean_list,axis=0),numpy.mean(r2_mean_list,axis=0),numpy.mean(r3_mean_list,axis=0)])
+        #error bars
         error_data.append([numpy.std(r1_mean_list,axis=0)/len(r1_mean_list),
                            numpy.std(r2_mean_list,axis=0)/len(r2_mean_list),
                            numpy.std(r3_mean_list,axis=0)/len(r3_mean_list)])
     
+
+
+    #here is the plotting part!
     plot_data_path = os.path.join(plot_path,"plot_data.csv")
     with open(plot_data_path, 'w') as plot_data_file:
                         writer = csv.writer(plot_data_file,delimiter =',')
@@ -158,42 +102,24 @@ if __name__ == '__main__':
         ax = fig.add_axes([0.1, 0.1, 0.8 ,0.8])
         w = 0.4
         Nat_labels=["Tunisia", "Germany", "Cyprus"]
-        #x = ['r1','r2','r3']
         plt.xlabel("sessions")
-        #y = [r1_data[i],r2_data[i],r3_data[i]]
         plt.ylabel(h)
-        #ax.bar(x, y)
         plt.title("Time estimation between different nationalities and different time intervals", loc='center')
-        #plt.titel.set_label_position('top')
-        #plt.errorbar(x, y, linestyle='None', marker='^', color='b', capsize=3)
         ax.bar(X + 0.00, data[:, 0], yerr=err_data[:, 0], color = 'r', width = 0.25)
         ax.bar(X + 0.25, data[:, 1], yerr=err_data[:, 1], color = 'g', width = 0.25)
         ax.bar(X + 0.50, data[:, 2], yerr=err_data[:, 2], color = 'b', width = 0.25)
         plt.xticks(X+w/2,('small', 'medium', 'Large'))
-        ax.legend(Nat_labels)#loc="lower center", bbox_to_anchor=(0.25, 1.15), ncol=2)
+        ax.legend(Nat_labels) #loc="lower center", bbox_to_anchor=(0.25, 1.15), ncol=2)
         
         sns.set(style="whitegrid")
-        
-        #for i in range(len(data)):
-                #plt.scatter (X, data[i], color = 'black', marker=".")
-        
-        #for i in range(len(data)):
-            #for j in range(len(data[i])):
-                #ax.scatter(data[i][j] + numpy.random.random(data[i][j].size) * w - w / 2, data[i][j], color= 'black')
-                
-
-
                    
         #show and save figure
         plt.show()
         figure_path = os.path.join(plot_figures_path, h + ".png")
         plt.savefig(figure_path)
-               
-        
-    """print(plot_data[0])
-    print(plot_data[1])
-    print(plot_data[2])"""
 
+
+    #this for loop can identify outliers in the data.
     for f,folder_path in enumerate(plot_path_list):
         for file in sorted(os.listdir(folder_path)):
             fname = file.split(".")[0]
@@ -219,8 +145,3 @@ if __name__ == '__main__':
                     if (p3 > 0.75):
                         print(fname, " is outlier in r3")
     pass
-
-
-
-
-

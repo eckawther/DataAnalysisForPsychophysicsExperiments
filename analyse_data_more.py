@@ -61,7 +61,7 @@ for i in range(3):
                     #data contient le fichier CSV, par exemple T01.csv
                     data = list(file_reader)
                     header = data[0]
-                    #r_data contient juste la ligne contenant le range etudie
+                    #r_data contient juste la ligne contenant le range etudié
                     r_data = list(map(float,data[i+1]))
                     if ('T' in file):
                         country = 'Tunisia'
